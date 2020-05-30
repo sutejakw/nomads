@@ -175,11 +175,11 @@
 @endsection
 
 @push('prepend-style')
-<link rel="stylesheet" href="{{ url('frontend/libraries/gijgo-master/dist/combined/css/gijgo.min.css') }}">
+<link rel="stylesheet" href="{{ url('frontend/libraries/gijgo/gijgo.min.css') }}">
 @endpush
 
 @push('addon-script')
-<script src="{{ url('frontend/libraries/gijgo-master/dist/combined/js/gijgo.min.js') }}"></script>
+<script src="{{ url('frontend/libraries/gijgo/gijgo.min.js') }}"></script>
 
     <script>
         $(document).ready(function () {
