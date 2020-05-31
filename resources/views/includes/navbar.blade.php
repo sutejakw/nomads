@@ -30,6 +30,8 @@
                     <a href="#" class="nav-link">Testimonial</a>
                 </li>
             </ul>
+            
+            @guest
             <!-- Mobile Button -->
             <form class="form-inline d-sm-black d-md-none">
                 <button class="btn btn-login my-2 my-sm-0">
@@ -42,6 +44,10 @@
                     Masuk
                 </button>
             </form>
+            @endguest
+
+
+
         </div>
     </div>
 </div>
