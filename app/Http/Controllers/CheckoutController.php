@@ -14,6 +14,10 @@ use App\TravelPackage;
 // panggil library carbon untuk format tanggal
 use Carbon\Carbon;
 
+use Mail;
+use App\Mail\TransactionSuccess;
+
+
 class CheckoutController extends Controller
 {
     public function index(Request $request, $id)
@@ -97,11 +101,20 @@ class CheckoutController extends Controller
 
     public function success(Request $request, $id)
     {
-        $transaction = Transaction::findOrFail($id);
+        $transaction = Transaction::with(['details', 'travel_package.galleries', 'user'])->findOrFail($id);
         $transaction->transaction_status = 'PENDING';
 
         // save() adalah fungsi yang digunakan untuk menyimpan data (seperti simpan ke database)
         $transaction->save();
+
+        // return $transaction untk "var_dump" variabel transaction
+        // return $transaction;
+
+        // kirim email ke user
+        Mail::to($transaction->user)->send(
+            new TransactionSuccess($transaction)
+        );
+
         
         return view('pages.success');
     }
