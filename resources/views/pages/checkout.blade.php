@@ -141,39 +141,14 @@
                         </table>
                         <hr>
                         <h2>Payment Instructions</h2>
-                        <p class="payment-instruction">Please complete your payment before to continue the
-                            wonderful
-                            trip</p>
-                        <div class="bank">
-                            <div class="bank-item pb-3">
-                            <img src="{{ url('frontend/images/ic_bank.png') }}" alt="" class="bank-image">
-                                <div class="description">
-                                    <h3>PT Nomads ID</h3>
-                                    <p>
-                                        0881 8829 8800
-                                        <br>
-                                        Bank Central Asia
-                                    </p>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="bank-item pb-3">
-                                <img src="{{ url('frontend/images/ic_bank.png') }}" alt="" class="bank-image">
-                                <div class="description">
-                                    <h3>PT Nomads ID</h3>
-                                    <p>
-                                        0899 8501 7888
-                                        <br>
-                                        Bank HSBC
-                                    </p>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                        </div>
+                        <p class="payment-instruction">
+                            You will be redirected to another page to pay using GO-PAY
+                        </p>
+                        <img src="{{ url('frontend/images/gopay.png') }}" class="w-50">
                     </div>
                     <div class="join-container">
                         <a href="{{ route('checkout-success', $item->id) }}" class="btn btn-block btn-join-now mt-3 py-2">
-                            I Have Made Payment
+                            Process Payment
                         </a>
                     </div>
                     <div class="text-center mt-3 cancel-link">

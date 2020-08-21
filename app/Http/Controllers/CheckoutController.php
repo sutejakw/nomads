@@ -17,6 +17,9 @@ use Carbon\Carbon;
 use Mail;
 use App\Mail\TransactionSuccess;
 
+use Midtrans\Config;
+use Midtrans\Snap;
+
 
 class CheckoutController extends Controller
 {
@@ -55,7 +58,6 @@ class CheckoutController extends Controller
     public function remove(Request $request, $detail_id)
     {
         $item = TransactionDetail::findOrFail($detail_id);
-        // dd($item);
 
         $transaction = Transaction::with([
             'details', 'travel_package'
@@ -111,11 +113,40 @@ class CheckoutController extends Controller
         // return $transaction;
 
         // kirim email ke user
-        Mail::to($transaction->user)->send(
-            new TransactionSuccess($transaction)
-        );
+        // Mail::to($transaction->user)->send(
+        //     new TransactionSuccess($transaction)
+        // );
 
         
-        return view('pages.success');
+        // return view('pages.success');
+
+        // Set konfigurasi midtrans
+        Config::$serverKey = config('midtrans.serverKey');
+        Config::$isProduction = config('midtrans.isProduction');
+        Config::$isSanitized = config('midtrans.isSanitized');
+        Config::$is3ds = config('midtrans.is3ds');
+
+        // Buat array untuk dikirim ke midtrans
+        $midtrans_params = [
+            'transaction_details' => [
+                'order_id' => 'NOMADS -' . $transaction->id,
+                'gross_amount' => (int) $transaction->transaction_total
+            ], 
+            'customer_details' => [
+                'first_name' => $transaction->user->name,
+                'email' => $transaction->user->email,
+            ],
+            'enabled_payments' => ['gopay'],
+            'vtweb' => []
+        ];
+
+        try {
+            // Ambil halaman payment midtrans
+            $paymentUrl = Snap::createTransaction($midtrans_params)->redirect_url;
+            // Redirect ke halaman midtrans
+            return redirect()->to($paymentUrl);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
     }
 }
